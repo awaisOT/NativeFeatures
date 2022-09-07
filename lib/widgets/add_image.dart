@@ -27,6 +27,7 @@ class _AddImageState extends State<AddImage> {
     );
 
     final tempimage = File(photo!.path);
+
     setState(() {
       imageCaptured = tempimage;
     });

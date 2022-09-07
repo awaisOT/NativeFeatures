@@ -10,17 +10,31 @@ class Placeslist extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Places'),
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(AddPlace.routename);
-              },
-              icon: Icon(Icons.add))
-        ],
-      ),
-      body: Consumer<PlacesProvider>(builder: ((context, value, child) => ListView.builder(itemBuilder: ((context, index) => ListTile(title:Text(value.items[index].title) ,)), itemCount: value.items.length,))
-      ));
+        appBar: AppBar(
+          title: const Text('Places'),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed(AddPlace.routename);
+                },
+                icon: Icon(Icons.add))
+          ],
+        ),
+        body: FutureBuilder(
+          future: Provider.of<PlacesProvider>(context, listen: false)
+              .fetchAndSetPlaces(),
+          builder: (ctx, snapshot) =>
+              snapshot.connectionState == ConnectionState.waiting
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : Consumer<PlacesProvider>(
+                      builder: ((context, value, child) => ListView.builder(
+                            itemBuilder: ((context, index) => ListTile(
+                                  title: Text(value.items[index].title),
+                                )),
+                            itemCount: value.items.length,
+                          ))),
+        ));
   }
 }

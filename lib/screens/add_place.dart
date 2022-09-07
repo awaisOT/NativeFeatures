@@ -12,6 +12,9 @@ class AddPlace extends StatefulWidget {
   _AddPlaceState createState() => _AddPlaceState();
 }
 
+//this function takes the text from textfield 'title' and get image from class AddImage
+//it passes both the files to the provider -> places_provider.
+
 class _AddPlaceState extends State<AddPlace> {
   final _titleController = TextEditingController();
 
@@ -25,9 +28,14 @@ class _AddPlaceState extends State<AddPlace> {
     if (_titleController.text.isEmpty || selectedimage == null) {
       return;
     }
-    Provider.of<PlacesProvider>(context, listen: false).addPlace(_titleController.text, selectedimage as File);
+    Provider.of<PlacesProvider>(context, listen: false)
+        .addPlace(_titleController.text, selectedimage as File);
+
+    // at the end of this funciton call the page will be closed.
+
     Navigator.of(context).pop();
-    print('item saved');
+
+    // print('item saved');
   }
 
   @override
